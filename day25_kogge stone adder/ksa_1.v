@@ -1,0 +1,88 @@
+`timescale 1ns / 1ps
+
+module ksa_1(a,b,cin,sum,cout);
+    input [7:0]a,b;
+    input cin;
+    output [7:0]sum;
+    output cout;
+    wire [7:0]g_z,p_z,g_a,p_a,g_b,p_b,g_c,p_c;
+//stage 1    
+    assign g_z[7]=a[7]&b[7];
+    assign p_z[7]=a[7]^b[7];
+    assign g_z[6]=a[6]&b[6];
+    assign p_z[6]=a[6]^b[6];
+    assign g_z[5]=a[5]&b[5];
+    assign p_z[5]=a[5]^b[5];
+    assign g_z[4]=a[4]&b[4];
+    assign p_z[4]=a[4]^b[4];
+    assign g_z[3]=a[3]&b[3];
+    assign p_z[3]=a[3]^b[3];
+    assign g_z[2]=a[2]&b[2];
+    assign p_z[2]=a[2]^b[2];
+    assign g_z[1]=a[1]&b[1];
+    assign p_z[1]=a[1]^b[1];  
+    assign g_z[0]=a[0]&b[0];
+    assign p_z[0]=a[0]^b[0];
+//stage 2
+    assign g_a[7]=p_z[7]&g_z[6]|g_z[7];
+    assign p_a[7]=p_z[7]&p_z[6];
+    assign g_a[6]=p_z[6]&g_z[5]|g_z[6];
+    assign p_a[6]=p_z[6]&p_z[5];
+    assign g_a[5]=p_z[5]&g_z[4]|g_z[5];
+    assign p_a[5]=p_z[5]&p_z[4];
+    assign g_a[4]=p_z[4]&g_z[3]|g_z[4];
+    assign p_a[4]=p_z[4]&p_z[3];
+    assign g_a[3]=p_z[3]&g_z[2]|g_z[3];
+    assign p_a[3]=p_z[3]&p_z[2];
+    assign g_a[2]=p_z[2]&g_z[1]|g_z[2];
+    assign p_a[2]=p_z[2]&p_z[1];    
+    assign g_a[1]=p_z[1]&g_z[0]|g_z[1];
+    assign p_a[1]=p_z[1]&p_z[0];
+    assign g_a[0]=g_z[0];
+    assign p_a[0]=p_z[0];
+//stage 3
+    assign g_b[7]=p_a[7]&g_a[5]|g_a[7];
+    assign p_b[7]=p_a[7]&p_a[5];
+    assign g_b[6]=p_a[6]&g_a[4]|g_a[6];
+    assign p_b[6]=p_a[6]&p_a[4];
+    assign g_b[5]=p_a[5]&g_a[3]|g_a[5];
+    assign p_b[5]=p_a[5]&p_a[3];
+    assign g_b[4]=p_a[4]&g_a[2]|g_a[4];
+    assign p_b[4]=p_a[4]&p_a[2];  
+    assign g_b[3]=p_a[3]&g_a[1]|g_a[3];
+    assign p_b[3]=p_a[3]&p_a[1];  
+    assign g_b[2]=p_a[2]&g_a[0]|g_a[2];
+    assign p_b[2]=p_a[2]&p_a[0];
+    assign g_b[1]=g_a[1];
+    assign p_b[1]=p_a[1];
+    assign g_b[0]=g_a[0];
+    assign p_b[0]=p_a[0];
+//stage 4
+    assign g_c[7]=p_b[7]&g_b[3]|g_b[7];
+    assign p_c[7]=p_b[7]&p_b[3];
+    assign g_c[6]=p_b[6]&g_b[2]|g_b[6];
+    assign p_c[6]=p_b[6]&p_b[2];
+    assign g_c[5]=p_b[5]&g_b[1]|g_b[5];
+    assign p_c[5]=p_b[5]&p_b[1];
+    assign g_c[4]=p_b[4]&g_b[0]|g_b[4];
+    assign p_c[4]=p_b[4]&p_b[0];
+    assign g_c[3]=g_b[3];
+    assign p_c[3]=p_b[3];
+    assign g_c[2]=g_b[2];
+    assign p_c[2]=p_b[2];
+    assign g_c[1]=g_b[1];
+    assign p_c[1]=p_b[1];
+    assign g_c[0]=g_b[0];
+    assign p_c[0]=p_b[0];
+//sum
+    assign sum[7]=p_z[7]^g_c[6];
+    assign sum[6]=p_z[6]^g_c[5];
+    assign sum[5]=p_z[5]^g_c[4];
+    assign sum[4]=p_z[4]^g_c[3];
+    assign sum[3]=p_z[3]^g_c[2];
+    assign sum[2]=p_z[2]^g_c[1];
+    assign sum[1]=p_z[1]^g_c[0];
+    assign sum[0]=p_z[0]^cin;
+//carry
+    assign cout=g_c[7];
+endmodule
