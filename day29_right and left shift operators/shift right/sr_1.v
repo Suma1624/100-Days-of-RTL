@@ -21,3 +21,21 @@ or_1 u10(x[2],x[3],y[1]);
 or_1 u11(x[4],x[5],y[2]);
 or_1 u12(x[6],x[7],y[3]);
 endmodule
+
+module and_1(a,b,c);
+input a,b;
+output c;
+assign c=a&b;
+endmodule
+
+module or_1(a,b,c);
+input a,b;
+output c;
+assign c=a|b;
+endmodule
+
+module not_1(a,b);
+input a;
+output b;
+assign b=~a;
+endmodule
