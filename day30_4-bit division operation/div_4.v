@@ -51,10 +51,46 @@ fs_1 u0(a,b,bin,x,bout);
 mux_2_1 u1(x,a,ctrl,y);
 endmodule
 
+module fs_1(a,b,bin,d,bout);
+input a,b,bin;
+output d,bout;
+assign x=a^b;
+assign d=bin^x;
+assign n1=~a;
+assign y=b&n1;
+assign n2=~x;
+assign z=bin&n2;
+assign bout=y|z;
+endmodule
 
 module mux_2_1(a,b,s,y);
 input a,b;
 input s;
 output y;
 assign y = s?b:a;
+endmodule
+
+module or_3(a,b,c,y);
+input a,b,c;
+output y;
+assign y=a|b|c;
+endmodule
+
+module or_1(a,b,c);
+input a,b;
+output c;
+assign c=a|b;
+endmodule
+
+module and_1(a,b,c);
+input a,b;
+output c;
+assign c=a&b;
+endmodule
+
+
+module not_1(a,b);
+input a;
+output b;
+assign b=~a;
 endmodule
