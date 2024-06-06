@@ -1,0 +1,33 @@
+module freqdiv(clk,rst,clk_new);
+input clk, rst;
+output clk_new;
+wire t1, t2;
+freqdiv_5 u0(clk, rst, t1);
+Dualedgetrigg_1 u1(clk, rst, t1, t2);
+xor u2(clk_new,t1,t2);
+endmodule
+
+module freqdiv_5(clk,rst,clk_5);
+input clk,rst;
+output clk_5;
+wire[2:0] q;
+wire temp;
+mod5_cnt u0(clk,rst,q);
+dff_1 u1(q[1],~clk, reset,temp);
+or u2(clk_5, q[1],temp);
+endmodule
+
+module Dualedgetrigg_1(clk,rst,d,q);
+input clk,rst,d;
+output q;
+reg q1, q2;
+assign q = clk ? q1 : q2;
+always@ (posedge clk) begin
+if(rst) q1<= 1'b0;
+q1 <= d;
+end
+always@ (negedge clk) begin
+if(rst) q2<= 1'b0;
+q2 <= d; 
+end
+endmodule
