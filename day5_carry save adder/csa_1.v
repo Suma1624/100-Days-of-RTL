@@ -22,3 +22,10 @@ assign s[3]=s2[2];
 assign cout[0]=s2[3];
 assign cout[1]=c2[3];
 endmodule
+
+module fa_1(a,b,cin,s,cout);
+input a,b,cin;
+output s,cout;
+assign s=a^b^cin;
+assign cout=(a&b)|(b&cin)|(cin&a);
+endmodule
